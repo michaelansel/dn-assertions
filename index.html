@@ -1,0 +1,81 @@
+<html>
+<head>
+    <title>DarkNet Identity Tool</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="qrcode.js"></script>
+</head>
+<body>
+    <div id="form">
+        <div class="inputrow">
+            <span class="inputlabel">Node Number:</span><input type="number" id="nodenum">
+            <div class="inputdesc">
+                This is the numeric identifier of your node (not the one with a ! in front). "!" node IDs can be converted as a direct Hex to Int.
+            </div>
+        </div>
+        <div class="inputrow">
+            Discord Username: <input type="text" id="discord">
+            <div class="inputdesc">
+                This is your discord username (note, <i>not</i> your display name!). View this by going to your profile.
+            </div>
+        </div>
+        <div class="inputrow">
+            Darknet ctfd Handle: <input type="text" id="ctfd">
+            <div class="inputdesc">
+                This is your username in the Darknet ctfd.
+            </div>
+        </div>
+    </div>
+    <textarea id="json" style="margin-top:15px;"></textarea>
+    <div id="qrcode" style="margin-top:15px;"></div>
+    <script type="text/javascript">
+        function loadData() {
+            let data = JSON.parse(decodeURIComponent(location.hash.substring(1)));
+            console.log(data)
+            for (k in data) {
+                console.log(k);
+                $(".inputrow input#"+k).val(data[k]);
+            }
+        }
+        loadData();
+
+        let size = Math.min(300, window.visualViewport.width);
+        document.getElementById('json').style['width'] = size;
+        document.getElementById('json').style['height']= 100;
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            width : size,
+            height : size
+        });
+
+        function makeCode () {
+            let data = {};
+            $(".inputrow input").each((idx,el)=>{if (el.value) {data[el.id]=el.value}});
+            //     nodenum: document.getElementById("nodenum").value,
+            //     discord: document.getElementById("discord").value,
+            //     ctfd: document.getElementById("ctfd").value,
+            //     signature: 12345
+            // };
+            console.log(data);
+
+            let blob = JSON.stringify(data)
+
+            window.location.hash = '#' + encodeURIComponent(blob);
+            document.getElementById("json").value = blob;
+            qrcode.makeCode(window.location);
+        }
+
+        makeCode();
+
+        $("#form input").
+            on("blur", function () {
+                makeCode();
+            }).
+            on("keydown", function (e) {
+                if (e.keyCode == 13) {
+                    makeCode();
+                }
+            });
+    </script>
+</body>
+</html>
