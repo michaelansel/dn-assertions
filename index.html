@@ -31,6 +31,7 @@
     <div id="qrcode" style="margin-top:15px;"></div>
     <script type="text/javascript">
         function loadData() {
+            if(location.hash.length < 3) return;
             let data = JSON.parse(decodeURIComponent(location.hash.substring(1)));
             console.log(data)
             for (k in data) {
