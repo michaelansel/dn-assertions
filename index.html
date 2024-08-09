@@ -28,6 +28,7 @@
         </div>
     </div>
     <textarea id="json" style="margin-top:15px;"></textarea>
+    <div id="url" style="margin-top:15px;"></div>
     <div id="qrcode" style="margin-top:15px;"></div>
     <script type="text/javascript">
         function loadData() {
@@ -63,6 +64,7 @@
 
             window.location.hash = '#' + encodeURIComponent(blob);
             document.getElementById("json").value = blob;
+            document.getElementById("url").innerHTML = '<a href="'+window.location+'">'+window.location+'</a>';
             qrcode.makeCode(window.location);
         }
 
