@@ -9,9 +9,9 @@
 <body>
     <div id="form">
         <div class="inputrow">
-            <span class="inputlabel">Node Number:</span><input type="number" id="nodenum">
+            <span class="inputlabel">Node ID:</span><input type="text" id="nodeid">
             <div class="inputdesc">
-                This is the numeric identifier of your node (not the one with a ! in front). "!" node IDs can be converted as a direct Hex to Int.
+                This is the hexadecimal identifier of your node (the one with a ! in front). Include the leading "!".
             </div>
         </div>
         <div class="inputrow">
@@ -53,11 +53,6 @@
         function makeCode () {
             let data = {};
             $(".inputrow input").each((idx,el)=>{if (el.value) {data[el.id]=el.value}});
-            //     nodenum: document.getElementById("nodenum").value,
-            //     discord: document.getElementById("discord").value,
-            //     ctfd: document.getElementById("ctfd").value,
-            //     signature: 12345
-            // };
             console.log(data);
 
             let blob = JSON.stringify(data)
